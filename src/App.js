@@ -1,6 +1,10 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { loader } from 'graphql.macro';
+
+const query = loader('./foo.graphql');
+console.log('query', query);
 
 function App() {
   return (
