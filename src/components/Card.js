@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import deck from './deck.svg'; 
+import styles from './Card.module.css';
+// import deck from './deck.svg';
 
 class Card extends Component {
   render() {
-    return <div class="card"><img src={deck} alt="Card" /></div>;
+    const { suit, number } = this.props;
+    return <div className={`${styles.card} ${styles[suit]} ${styles['c' + number]}`}></div>;
   }
 }
 export default Card;

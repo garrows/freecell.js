@@ -1,0 +1,75 @@
+.card {
+  width: 12vw;
+  height: calc(12vw * 1.44);
+  background: url(./deck.svg);
+  background-repeat: no-repeat;
+  background-size: 1300%;
+}
+
+.c1 {
+  background-position-x: 0;
+}
+
+.c2 {
+  background-position-x: calc(-12vw * 1);
+}
+
+.c3 {
+  background-position-x: calc(-12vw * 2);
+}
+
+.c4 {
+  background-position-x: calc(-12vw * 3);
+}
+
+.c5 {
+  background-position-x: calc(-12vw * 4);
+}
+
+.c6 {
+  background-position-x: calc(-12vw * 5);
+}
+
+.c7 {
+  background-position-x: calc(-12vw * 6);
+}
+
+.c8 {
+  background-position-x: calc(-12vw * 7);
+}
+
+.c9 {
+  background-position-x: calc(-12vw * 8);
+}
+
+.c10 {
+  background-position-x: calc(-12vw * 9);
+}
+
+.cJ {
+  background-position-x: calc(-12vw * 10);
+}
+
+.cQ {
+  background-position-x: calc(-12vw * 11);
+}
+
+.cK {
+  background-position-x: calc(-12vw * 12);
+}
+
+.heart {
+  background-position-y: calc(-12vw * 1.53);
+}
+
+.diamond {
+  background-position-y: calc(-12vw * 1.49 * 2);
+}
+
+.club {
+  background-position-y: calc(-12vw * 1.478 * 3);
+}
+
+.spade {
+  background-position-y: calc(-12vw/13);
+}
