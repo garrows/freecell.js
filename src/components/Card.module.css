@@ -5,4 +5,5 @@
   margin: .75vw;
   image-rendering: pixelated;
   border: 0.2vw black solid;
-}
+  border-radius: 0.7vw;
+} 
