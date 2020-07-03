@@ -5,7 +5,7 @@ import styles from './Card.module.css';
 class Card extends Component {
   render() {
     const { suit, number } = this.props;
-    return <div className={`${styles.card} ${styles[suit]} ${styles['c' + number]}`}></div>;
+    return <div style={{backgroundImage:`url(/deck/${number}${suit}.gif)`}} className={`${styles.card}`}></div>;
   }
 }
 export default Card;
