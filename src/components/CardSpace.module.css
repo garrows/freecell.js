@@ -1,0 +1,12 @@
+.cardSpace {
+  width: 10vw;
+  height: calc(10.5vw * 1.3623188405797);
+  background-size: contain;
+  margin: 0;
+  image-rendering: pixelated;
+  border: 0.2vw black solid;
+  border-top-color: black;
+  border-left-color: black;
+  border-right-color: #00ff00;
+  border-bottom-color: #00ff00;
+} 

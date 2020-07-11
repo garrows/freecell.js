@@ -1,0 +1,13 @@
+.overseer {
+  width: 5vw;
+  height: 5vw;
+  margin-top: 2.5vw;
+  background-size: contain;
+  background-image: url(/deck/overseer.gif);
+  image-rendering: pixelated;
+  border: 0.2vw red solid;
+  border-top-color: #00ff00;
+  border-left-color: #00ff00;
+  border-right-color: black;
+  border-bottom-color: black;
+} 

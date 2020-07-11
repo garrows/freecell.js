@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from './App.module.css';
 import Card from './components/Card';
+import CardSpace from './components/CardSpace';
+import Overseer from './components/Overseer';
 import { loader } from 'graphql.macro';
 
 const query = loader('./foo.graphql');
@@ -9,6 +11,21 @@ console.log('query', query);
 function App() {
   return (
     <div className={styles.App}>
+      <div className={styles.TopRow}>
+        <div className={styles.TopRowLeft}>
+          <CardSpace />
+          <CardSpace />
+          <CardSpace />
+          <CardSpace />
+        </div>
+        <Overseer />
+        <div className={styles.TopRowRight}>
+          <CardSpace />
+          <CardSpace />
+          <CardSpace />
+          <CardSpace />
+        </div>
+      </div>
       <div className={styles.Row}>
         <Card suit="S" number="A" />
         <Card suit="S" number="2" />
@@ -75,7 +92,7 @@ function App() {
         <Card suit="S" number="A" />
         <Card suit="C" number="A" />
       </div>
-      
+
     </div>
   );
 }
