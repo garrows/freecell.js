@@ -1,9 +1,9 @@
 .card {
-  width: 10.5vw;
-  height: calc(10.5vw * 1.3623188405797);
+  width: 69px;
+  height: 94px;
   background-size: contain;
-  margin: .75vw;
   image-rendering: pixelated;
-  border: 0.2vw black solid;
-  border-radius: 0.7vw;
+  border: 1px black solid;
+  border-radius: 2px;
+  margin-left: 7px;
 } 

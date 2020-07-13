@@ -1,12 +1,14 @@
 .App {
-  background-color: #027d01;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: flex-start;
-  align-items: stretch;
-  align-content: stretch;
-  min-height: 100vh;
+  width: 632px;
+  height: 544px;
+  transform-origin: 0 0;
+}
+body {
+  background-color: #027d01;
 }
 
 .Row {
@@ -14,7 +16,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   align-items: stretch;
-  height: calc(12vw * .23);
+  height: 18px;
 }
 
 .TopRow {
@@ -22,8 +24,7 @@
   flex-direction: column;
   flex-wrap: wrap;
   align-items: stretch;
-  height: 15vw;
-  padding-bottom: 1.5vw;
+  height: 106px;
 }
 
 .TopRowLeft {
@@ -31,7 +32,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   align-items: stretch;
-  width: 47.5vw;
+  width: 284px;
 }
 
 .TopRowRight {
@@ -40,5 +41,9 @@
   flex-wrap: wrap;
   align-items: stretch;
   justify-content: flex-end;
-  width: 47.5vw;
+  width: 284px;
+}
+
+* {
+  image-rendering: pixelated;
 }

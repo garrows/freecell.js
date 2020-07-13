@@ -5,7 +5,10 @@ import styles from './Overseer.module.css';
 class Overseer extends Component {
   render() {
     const { direction } = this.props;
-    return <div className={`${styles.overseer}`}></div>;
+
+    return <div className={`${styles.overseer}`}>
+      <img src={`/deck/overseer-${direction}.gif`} className={`${styles.overseerImg}`} alt="overseeing king" />
+    </div>;
   }
 }
 export default Overseer;

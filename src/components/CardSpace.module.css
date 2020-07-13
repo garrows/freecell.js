@@ -1,10 +1,9 @@
 .cardSpace {
-  width: 11vw;
-  height: 15vw;
-  background-size: contain;
-  margin: 0;
+  width: 69px;
+  height: 94px;
   image-rendering: pixelated;
-  border: 0.2vw black solid;
+  border-width: 1px;
+  border-style: solid;
   border-top-color: black;
   border-left-color: black;
   border-right-color: #00ff00;

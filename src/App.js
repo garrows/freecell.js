@@ -1,16 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './App.module.css';
 import Card from './components/Card';
 import CardSpace from './components/CardSpace';
 import Overseer from './components/Overseer';
-import { loader } from 'graphql.macro';
 
-const query = loader('./foo.graphql');
-console.log('query', query);
+// import { loader } from 'graphql.macro';
+// const query = loader('./foo.graphql');
+// console.log('query', query);
 
 function App() {
+  const appDiv = React.useRef(null);
+  const [scale, setScale] = useState(0.5);
+
+  function handleResize() {
+    const newScale = Math.min( 
+      window.innerWidth / appDiv.current.clientWidth, 
+      window.innerHeight / appDiv.current.clientHeight
+    );
+    setScale(newScale);
+  }
+
+  React.useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return _ => {
+      window.removeEventListener('resize', handleResize);
+    }
+  });
+
+
   return (
-    <div className={styles.App}>
+    <div ref={appDiv} className={styles.App} style={{ transform: `scale(${scale})` }}>
       <div className={styles.TopRow}>
         <div className={styles.TopRowLeft}>
           <CardSpace />
@@ -18,7 +38,7 @@ function App() {
           <CardSpace />
           <CardSpace />
         </div>
-        <Overseer />
+        <Overseer direction="left" />
         <div className={styles.TopRowRight}>
           <CardSpace />
           <CardSpace />
