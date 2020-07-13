@@ -1,5 +1,5 @@
 @value constants: "./Constants.module.css";
-@value menuHeight, topRowHeight from constants;
+@value topRowHeight from constants;
 
 .App {
   display: flex;
@@ -7,7 +7,7 @@
   flex-wrap: nowrap;
   justify-content: flex-start;
   width: 632px;
-  height: 544px;
+  /* height: 544px; */
   transform-origin: 0 0;
 }
 
@@ -17,12 +17,6 @@ body {
 
 * {
   image-rendering: pixelated;
-}
-
-.Menu {
-  width: 100%;
-  height: menuHeight;
-  background-color: #e0e2eb;
 }
 
 .TopRow {

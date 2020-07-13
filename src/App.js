@@ -3,6 +3,7 @@ import styles from './App.module.css';
 import Card from './components/Card';
 import CardSpace from './components/CardSpace';
 import Overseer from './components/Overseer';
+import Menu from './components/Menu';
 
 // import { loader } from 'graphql.macro';
 // const query = loader('./foo.graphql');
@@ -94,7 +95,7 @@ function App() {
 
   return (
     <div ref={appDiv} className={styles.App} style={{ transform: `scale(${scale})` }} onClick={() => clicked()}>
-      <div className={styles.Menu}></div>
+      <Menu />
       <div className={styles.TopRow}>
         <div className={styles.TopRowLeft}>
           <CardSpace />
