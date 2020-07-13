@@ -1,9 +1,202 @@
+@value constants: "../Constants.module.css";
+@value cardWidth, cardHeight, menuHeight, overseerWidth, topRowHeight, cardPadding, cardTopShowing from constants;
+
 .card {
-  width: 69px;
-  height: 94px;
+  width: calc(cardWidth - 2px);
+  height: calc(cardHeight - 2px);
   background-size: contain;
-  image-rendering: pixelated;
   border: 1px black solid;
   border-radius: 2px;
-  margin-left: 7px;
-} 
+  position: absolute;
+  transition-duration: 200ms;
+}
+
+/* Give the cards a default z-index for stacking */
+.card[data-value="A"] {
+  z-index: 1;
+}
+.card[data-value="2"] {
+  z-index: 2;
+}
+.card[data-value="3"] {
+  z-index: 3;
+}
+.card[data-value="4"] {
+  z-index: 4;
+}
+.card[data-value="5"] {
+  z-index: 5;
+}
+.card[data-value="6"] {
+  z-index: 6;
+}
+.card[data-value="7"] {
+  z-index: 7;
+}
+.card[data-value="8"] {
+  z-index: 8;
+}
+.card[data-value="9"] {
+  z-index: 9;
+}
+.card[data-value="10"] {
+  z-index: 10;
+}
+.card[data-value="J"] {
+  z-index: 11;
+}
+.card[data-value="Q"] {
+  z-index: 12;
+}
+.card[data-value="K"] {
+  z-index: 13;
+}
+
+/* Top left holding positions */
+.card[data-area="hold"][data-column="0"] {
+  top: menuHeight;
+  left: 0;
+}
+.card[data-area="hold"][data-column="1"] {
+  top: menuHeight;
+  left: cardWidth;
+}
+.card[data-area="hold"][data-column="2"] {
+  top: menuHeight;
+  left: calc(cardWidth * 2);
+}
+.card[data-area="hold"][data-column="3"] {
+  top: menuHeight;
+  left: calc(cardWidth * 3);
+}
+
+/* Top right card piles */
+.card[data-area="stacks"][data-column="0"] {
+  top: menuHeight;
+  left: calc(cardWidth * 4 + overseerWidth);
+}
+.card[data-area="stacks"][data-column="1"] {
+  top: menuHeight;
+  left: calc(cardWidth * 5 + overseerWidth);
+}
+.card[data-area="stacks"][data-column="2"] {
+  top: menuHeight;
+  left: calc(cardWidth * 6 + overseerWidth);
+}
+.card[data-area="stacks"][data-column="3"] {
+  top: menuHeight;
+  left: calc(cardWidth * 7 + overseerWidth);
+}
+
+/* Table columns */
+.card[data-area="table"][data-column="0"] {
+  left: cardPadding;
+}
+.card[data-area="table"][data-column="1"] {
+  left: calc(cardPadding * 2 + cardWidth);
+}
+.card[data-area="table"][data-column="2"] {
+  left: calc((cardPadding + cardWidth) * 2 + cardPadding);
+}
+.card[data-area="table"][data-column="3"] {
+  left: calc((cardPadding + cardWidth) * 3 + cardPadding);
+}
+.card[data-area="table"][data-column="4"] {
+  left: calc((cardPadding + cardWidth) * 4 + cardPadding);
+}
+.card[data-area="table"][data-column="5"] {
+  left: calc((cardPadding + cardWidth) * 5 + cardPadding);
+}
+.card[data-area="table"][data-column="6"] {
+  left: calc((cardPadding + cardWidth) * 6 + cardPadding);
+}
+.card[data-area="table"][data-column="7"] {
+  left: calc((cardPadding + cardWidth) * 7 + cardPadding);
+}
+
+/* Table rows */
+.card[data-area="table"][data-row="0"] {
+  top: calc(menuHeight + topRowHeight);
+  z-index: 100;
+}
+.card[data-area="table"][data-row="1"] {
+  top: calc(menuHeight + topRowHeight + cardTopShowing);
+  z-index: 200;
+}
+.card[data-area="table"][data-row="2"] {
+  top: calc(menuHeight + topRowHeight + (cardTopShowing * 2));
+  z-index: 300;
+}
+.card[data-area="table"][data-row="3"] {
+  top: calc(menuHeight + topRowHeight + (cardTopShowing * 3));
+  z-index: 400;
+}
+.card[data-area="table"][data-row="4"] {
+  top: calc(menuHeight + topRowHeight + (cardTopShowing * 4));
+  z-index: 500;
+}
+.card[data-area="table"][data-row="5"] {
+  top: calc(menuHeight + topRowHeight + (cardTopShowing * 5));
+  z-index: 600;
+}
+.card[data-area="table"][data-row="6"] {
+  top: calc(menuHeight + topRowHeight + (cardTopShowing * 6));
+  z-index: 700;
+}
+.card[data-area="table"][data-row="7"] {
+  top: calc(menuHeight + topRowHeight + (cardTopShowing * 7));
+  z-index: 800;
+}
+.card[data-area="table"][data-row="8"] {
+  top: calc(menuHeight + topRowHeight + (cardTopShowing * 8));
+  z-index: 900;
+}
+.card[data-area="table"][data-row="9"] {
+  top: calc(menuHeight + topRowHeight + (cardTopShowing * 9));
+  z-index: 1000;
+}
+.card[data-area="table"][data-row="10"] {
+  top: calc(menuHeight + topRowHeight + (cardTopShowing * 10));
+  z-index: 1100;
+}
+.card[data-area="table"][data-row="11"] {
+  top: calc(menuHeight + topRowHeight + (cardTopShowing * 11));
+  z-index: 1200;
+}
+.card[data-area="table"][data-row="12"] {
+  top: calc(menuHeight + topRowHeight + (cardTopShowing * 12));
+  z-index: 1300;
+}
+.card[data-area="table"][data-row="13"] {
+  top: calc(menuHeight + topRowHeight + (cardTopShowing * 13));
+  z-index: 1400;
+}
+.card[data-area="table"][data-row="14"] {
+  top: calc(menuHeight + topRowHeight + (cardTopShowing * 14));
+  z-index: 1500;
+}
+.card[data-area="table"][data-row="15"] {
+  top: calc(menuHeight + topRowHeight + (cardTopShowing * 15));
+  z-index: 1600;
+}
+.card[data-area="table"][data-row="16"] {
+  top: calc(menuHeight + topRowHeight + (cardTopShowing * 16));
+  z-index: 1700;
+}
+.card[data-area="table"][data-row="17"] {
+  top: calc(menuHeight + topRowHeight + (cardTopShowing * 17));
+  z-index: 1800;
+}
+.card[data-area="table"][data-row="18"] {
+  top: calc(menuHeight + topRowHeight + (cardTopShowing * 18));
+  z-index: 1900;
+}
+.card[data-area="table"][data-row="19"] {
+  top: calc(menuHeight + topRowHeight + (cardTopShowing * 19));
+  z-index: 2000;
+}
+.card[data-area="table"][data-row="20"] {
+  top: calc(menuHeight + topRowHeight + (cardTopShowing * 20));
+  z-index: 2100;
+}
+/* Stop at 20 as its the deal row count plus a full suit stacked */

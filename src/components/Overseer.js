@@ -7,7 +7,7 @@ class Overseer extends Component {
     const { direction } = this.props;
 
     return <div className={`${styles.overseer}`}>
-      <img src={`/deck/overseer-${direction}.gif`} className={`${styles.overseerImg}`} alt="overseeing king" />
+      <img src={`/deck/overseer-${direction}.gif`} alt="overseeing king" />
     </div>;
   }
 }

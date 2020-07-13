@@ -1,3 +1,6 @@
+@value constants: "./Constants.module.css";
+@value menuHeight, topRowHeight from constants;
+
 .App {
   display: flex;
   flex-direction: column;
@@ -7,16 +10,19 @@
   height: 544px;
   transform-origin: 0 0;
 }
+
 body {
   background-color: #027d01;
 }
 
-.Row {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: stretch;
-  height: 18px;
+* {
+  image-rendering: pixelated;
+}
+
+.Menu {
+  width: 100%;
+  height: menuHeight;
+  background-color: #e0e2eb;
 }
 
 .TopRow {
@@ -24,7 +30,7 @@ body {
   flex-direction: column;
   flex-wrap: wrap;
   align-items: stretch;
-  height: 106px;
+  height: topRowHeight;
 }
 
 .TopRowLeft {
@@ -42,8 +48,4 @@ body {
   align-items: stretch;
   justify-content: flex-end;
   width: 284px;
-}
-
-* {
-  image-rendering: pixelated;
 }
