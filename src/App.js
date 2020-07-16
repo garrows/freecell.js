@@ -97,7 +97,7 @@ function App() {
         const cardsInColumn = newDeck.filter(c => c.area === 'table').filter(c => c.column === newCard.column).sort((a, b) => b.row - a.row);
         cardsInColumn[0].selected = true;
       } else {
-      newCard.selected = true;
+        newCard.selected = true;
       }
       return setDeck(newDeck);
     }
@@ -226,12 +226,35 @@ function App() {
     setDeck(newDeck);
   }
 
+  function moveSelectedCardToHold(column) {
+    const newDeck = JSON.parse(JSON.stringify(deck));
+    // Find a selected card
+    const card = newDeck.find(c => c.selected);
+    // Only has an action if a card is selected
+    if (!card) return;
+
+    // Check if there's something there already
+    const cardsInColumn = newDeck.filter(c => c.area === 'hold').filter(c => c.column === column);
+    // Check if illegal moves
+    // Is there a card there already
+    if (cardsInColumn.length > 0) {
+      return illegalMove();
+    }
+    
+    card.row = 0;
+    card.column = column;
+    card.selected = false;
+    card.area = 'hold';
+
+    setDeck(newDeck);
+  }
+
   function columnClicked(column) {
     moveSelectedCardToColumn(column);
   }
 
   function holdSpaceClicked(column) {
-    
+    moveSelectedCardToHold(column);
   }
 
   function stackSpaceClicked(column) {
