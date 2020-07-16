@@ -43,6 +43,7 @@ function makeDeck() {
         column,
         row,
         area,
+        color: suit === 'S' || suit === 'C' ? 'black' : 'red',
         selected: false
       });
     }
@@ -82,24 +83,34 @@ function App() {
     }
   });
 
-  function clicked() {
-    const newDeck = JSON.parse(JSON.stringify(deck));
-    newDeck[0].area = 'stacks';
-    newDeck[0].column = 0;
-    newDeck[0].row = 0;
-    newDeck[12].area = 'stacks';
-    newDeck[12].column = 1;
-    newDeck[12].row = 0;
-    setDeck(newDeck);
-    setOverseerDirection('right');
-  }
-
   function cardClicked(clickedCard) {
-    console.log('card', clickedCard);
-    const newDeck = JSON.parse(JSON.stringify(deck));
-    const newCard = newDeck.find(card => card.key === clickedCard.key);
-    newCard.selected = !newCard.selected;
-    setDeck(newDeck);
+    // Find a selected card
+    const selectedCard = deck.find(c => c.selected);
+
+    // Nothing is selected so select one
+    if (!selectedCard) {
+      // TODO: Select the top one in the pile
+      const newDeck = JSON.parse(JSON.stringify(deck));
+      const newCard = newDeck.find(card => card.key === clickedCard.key);
+      newCard.selected = true;
+      return setDeck(newDeck);
+    }
+
+    switch (clickedCard.area) {
+      case 'table':
+        // Move a card on top of another
+        moveSelectedCardToColumn(clickedCard.column);
+        break;
+      case 'hold':
+        // Illegal move
+        return illegalMove();
+      case 'stacks':
+        // Move to stacks
+        moveSelectedCardToStack(clickedCard.column);
+        break;
+      default:
+        break;
+    }
   }
 
   function cardDoubleClicked(clickedCard) {
@@ -124,24 +135,138 @@ function App() {
     setDeck(newDeck);
   }
 
+  function moveSelectedCardToColumn(column) {
+    const newDeck = JSON.parse(JSON.stringify(deck));
+    // Find a selected card
+    const card = newDeck.find(c => c.selected);
+    // Only has an action if a card is selected
+    if (!card) return;
+
+    // Same column
+    if (card.column === column) {
+      // Deselect it.
+      card.selected = false;
+      return setDeck(newDeck);
+    }
+
+    // Find the top card in that column
+    const cardsInColumn = newDeck.filter(c => c.area === 'table').filter(c => c.column === column).sort((a, b) => b.row - a.row);
+
+    debugger;
+    // Check for illegal moves.
+    if (cardsInColumn.length > 0) {
+      const topCard = cardsInColumn[0];
+      // Wrong color
+      if (topCard.color === card.color) {
+        return illegalMove();
+      }
+      // Wrong value
+      if (topCard.int !== card.int + 1) {
+        return illegalMove();
+      }
+    }
+
+    const row = cardsInColumn.length > 0 ? cardsInColumn[0].row : -1;
+    
+    card.row = row + 1;
+    card.column = column;
+    card.selected = false;
+    card.area = 'table';
+
+    setDeck(newDeck);
+  }
+
+  function illegalMove() {
+    alert('That move is not allowed.');
+
+    // Deselect card
+    const newDeck = JSON.parse(JSON.stringify(deck));
+    const card = newDeck.find(c => c.selected);
+    if (card) {
+      card.selected = false;
+      setDeck(newDeck);
+    }
+  }
+
+  function moveSelectedCardToStack(column) {
+    const newDeck = JSON.parse(JSON.stringify(deck));
+    // Find a selected card
+    const card = newDeck.find(c => c.selected);
+    // Only has an action if a card is selected
+    if (!card) return;
+
+    // Find the top card in that column
+    const cardsInColumn = newDeck.filter(c => c.area === 'stacks').filter(c => c.column === column).sort((a, b) => b.int - a.int);
+    // Check if illegal moves
+    // Empty stack - Can only put an ace down
+    if (cardsInColumn.length === 0 && card.value !== 'A') {
+      return illegalMove();
+    }
+
+    // Has cards in stack with wrong suit.
+    if (cardsInColumn[0] && cardsInColumn[0].suit !== card.suit) {
+      return illegalMove();
+    }
+    // Has cards in stack. Same suit. Must be one value lower.
+    if (cardsInColumn[0] && cardsInColumn[0].int !== card.int -1) {
+      return illegalMove();
+    }
+    
+    card.row = 0;
+    card.column = column;
+    card.selected = false;
+    card.area = 'stacks';
+
+    setDeck(newDeck);
+  }
+
+  function columnClicked(column) {
+    moveSelectedCardToColumn(column);
+  }
+
+  function holdSpaceClicked(column) {
+    
+  }
+
+  function stackSpaceClicked(column) {
+    moveSelectedCardToStack(column);
+  }
+
+  function holdSpaceHover() {
+    setOverseerDirection('left');
+  }
+
+  function stackSpaceHover() {
+    setOverseerDirection('right');
+  }
+
 
   return (
-    <div ref={appDiv} className={styles.App} style={{ transform: `scale(${scale})` }}>
+    <div ref={appDiv} className={styles.App} style={{ transform: `scale(${scale})` }} >
       <Menu />
       <div className={styles.TopRow}>
-        <div className={styles.TopRowLeft}>
-          <CardSpace />
-          <CardSpace />
-          <CardSpace />
-          <CardSpace />
+        <div className={styles.TopRowLeft} onMouseEnter={() => holdSpaceHover()}>
+          <CardSpace onClick={() => holdSpaceClicked(0)} />
+          <CardSpace onClick={() => holdSpaceClicked(1)} />
+          <CardSpace onClick={() => holdSpaceClicked(2)} />
+          <CardSpace onClick={() => holdSpaceClicked(3)} />
         </div>
         <Overseer direction={overseerDirection} />
-        <div className={styles.TopRowRight}>
-          <CardSpace />
-          <CardSpace />
-          <CardSpace />
-          <CardSpace onClick={() => clicked()}/>
+        <div className={styles.TopRowRight} onMouseEnter={() => stackSpaceHover()} >
+          <CardSpace onClick={() => stackSpaceClicked(0)} />
+          <CardSpace onClick={() => stackSpaceClicked(1)} />
+          <CardSpace onClick={() => stackSpaceClicked(2)} />
+          <CardSpace onClick={() => stackSpaceClicked(3)} />
         </div>
+      </div>
+      <div className={styles.Table}>
+        {Array.apply(null, Array(8)).map((item, index) => {
+          return <div 
+            key={index}
+            className={styles.Column} 
+            onClick={() => columnClicked(index)}
+          ></div>
+        })}
       </div>
       {deck.map((card) => {
         return <Card 

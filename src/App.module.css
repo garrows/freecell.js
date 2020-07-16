@@ -1,13 +1,16 @@
 @value constants: "./Constants.module.css";
-@value topRowHeight from constants;
+@value topRowHeight, cardWidth, cardPadding, menuHeight from constants;
+
+@value gameWidth: 632px;
+@value gameHeight: 544px;
 
 .App {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: flex-start;
-  width: 632px;
-  /* height: 544px; */
+  width: gameWidth;
+  height: gameHeight;
   transform-origin: 0 0;
 }
 
@@ -42,4 +45,22 @@ body {
   align-items: stretch;
   justify-content: flex-end;
   width: 284px;
+}
+
+.Table {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
+  height: calc(gameHeight - menuHeight - topRowHeight);
+  width: gameWidth;
+}
+
+.Column {
+  width: calc(cardWidth + cardPadding);
+  height: 100%;
+}
+
+.Column:first-child, .Column:last-child {
+  width: calc(cardWidth + cardPadding * 1.5);
 }
