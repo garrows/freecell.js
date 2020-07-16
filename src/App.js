@@ -89,10 +89,16 @@ function App() {
 
     // Nothing is selected so select one
     if (!selectedCard) {
-      // TODO: Select the top one in the pile
       const newDeck = JSON.parse(JSON.stringify(deck));
       const newCard = newDeck.find(card => card.key === clickedCard.key);
+      // Only select the top card if it's on the table
+      if (newCard.area === 'table') {
+        // Find everything in that column
+        const cardsInColumn = newDeck.filter(c => c.area === 'table').filter(c => c.column === newCard.column).sort((a, b) => b.row - a.row);
+        cardsInColumn[0].selected = true;
+      } else {
       newCard.selected = true;
+      }
       return setDeck(newDeck);
     }
 
