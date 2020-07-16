@@ -13,7 +13,7 @@ function makeDeck() {
   const deck = [];
   let column = 0;
   let row = 0;
-  let area = 'hold';
+  let area = 'table';
   ['S', 'D', 'C', 'H'].forEach((suit) => {
     for (let int = 1; int <= 13; int++) {
       let value;
@@ -34,26 +34,28 @@ function makeDeck() {
           value = int.toString();
           break;
       }
-      if (column === 4 && area === 'hold') {
-        column = 0;
-        area = 'stacks';
-      } else if (column === 4 && area === 'stacks') {
-        column = 0;
-        area = 'table';
-      } else if (column >= 8) {
-        column = 0;
-        row++;
-      }
+      let key = suit + value;
       deck.push({
+        key,
         suit,
         value,
         int,
         column,
         row,
-        area
+        area,
+        selected: false
       });
-      column++;
     }
+  });
+
+  deck.forEach(card => {
+    if (column >= 8) {
+      column = 0;
+      row++;
+    }
+    card.column = column;
+    card.row = row;
+    column++;
   });
   return deck;
 }
@@ -92,9 +94,39 @@ function App() {
     setOverseerDirection('right');
   }
 
+  function cardClicked(clickedCard) {
+    console.log('card', clickedCard);
+    const newDeck = JSON.parse(JSON.stringify(deck));
+    const newCard = newDeck.find(card => card.key === clickedCard.key);
+    newCard.selected = !newCard.selected;
+    setDeck(newDeck);
+  }
+
+  function cardDoubleClicked(clickedCard) {
+    // Double click usually puts the card in the hold spots
+    const newDeck = JSON.parse(JSON.stringify(deck));
+    const newCard = newDeck.find(card => card.key === clickedCard.key);
+
+    newCard.selected = false;
+
+    // Find the cards in hold already
+    const holdCards = newDeck.filter((card) => card.area === 'hold');
+    // Check if there are spots
+    if (holdCards.length < 4) {
+      newCard.area = 'hold';
+      newCard.row = 0;
+      // Find the free spot.
+      const takenSpots = holdCards.map(card => card.column);
+      const freeSpot = [0,1,2,3].find(col => !takenSpots.includes(col));
+      newCard.column = freeSpot;
+    }
+
+    setDeck(newDeck);
+  }
+
 
   return (
-    <div ref={appDiv} className={styles.App} style={{ transform: `scale(${scale})` }} onClick={() => clicked()}>
+    <div ref={appDiv} className={styles.App} style={{ transform: `scale(${scale})` }}>
       <Menu />
       <div className={styles.TopRow}>
         <div className={styles.TopRowLeft}>
@@ -108,17 +140,20 @@ function App() {
           <CardSpace />
           <CardSpace />
           <CardSpace />
-          <CardSpace />
+          <CardSpace onClick={() => clicked()}/>
         </div>
       </div>
       {deck.map((card) => {
         return <Card 
+          key={card.key}
           suit={card.suit} 
           value={card.value} 
           column={card.column}
           row={card.row}
           area={card.area}
-          key={card.suit + card.value}
+          selected={card.selected}
+          onClick={() => cardClicked(card)}
+          onDoubleClick={() => cardDoubleClicked(card)}
         />
       })}
 
