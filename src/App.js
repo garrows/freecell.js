@@ -100,7 +100,7 @@ function App() {
     if (!card) return;
 
     // Same column
-    if (card.column === column) {
+    if (card.column === column && card.area === 'table') {
       // Deselect it.
       card.selected = false;
       return setDeck(newDeck);
