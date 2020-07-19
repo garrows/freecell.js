@@ -61,6 +61,12 @@ function App() {
         moveSelectedCardToColumn(clickedCard.column);
         break;
       case 'hold':
+        if (clickedCard.key === selectedCard.key) {
+          const newDeck = JSON.parse(JSON.stringify(deck));
+          const newCard = newDeck.find(card => card.key === clickedCard.key);
+          newCard.selected = false;
+          return setDeck(newDeck);
+        }
         // Illegal move
         return illegalMove();
       case 'stacks':
@@ -78,6 +84,13 @@ function App() {
     const newCard = newDeck.find(card => card.key === clickedCard.key);
 
     newCard.selected = false;
+
+    // Check if it's the same card
+    if (newCard.key === clickedCard.key && clickedCard.area === 'hold') {
+      // newCard.selected = false;
+      // return setDeck(newDeck);
+      return;
+    }
 
     // Find the cards in hold already
     const holdCards = newDeck.filter((card) => card.area === 'hold');
@@ -278,7 +291,7 @@ function App() {
                 alignItems: "center",
                 zIndex: 1000,
       }}>
-        <div style={{ width: 198, /* height: 124 */ }} className="window">
+        <div style={{ width: 198 }} className="window">
           <div className="title-bar">
             <div className="title-bar-text">FreeCell</div>
             <div className="title-bar-controls">
