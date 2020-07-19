@@ -10,8 +10,8 @@
 .MenuItem {
   float: left;
   padding: 3px 4px 0px 4px;
-  font-family: 'Segoe UI', sans-serif;
-  font-size: 10px;
+  font-family:"Pixelated MS Sans Serif",Arial;
+  font-size: 11px;
   height: calc(menuHeight - 3px);
 }
 

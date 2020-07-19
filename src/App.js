@@ -5,6 +5,7 @@ import CardSpace from './components/CardSpace';
 import Overseer from './components/Overseer';
 import Menu from './components/Menu';
 import Dealer from './Dealer.js';
+import "xp.css/dist/XP.css";
 
 // import { loader } from 'graphql.macro';
 // const query = loader('./foo.graphql');
@@ -15,6 +16,7 @@ const gameSeed = 2;
 function App() {
   const appDiv = React.useRef(null);
   const [scale, setScale] = useState(0.5);
+  let [illegalMoveDialogShowing, setIllegalMoveDialogShowing] = useState(false);
   const [deck, setDeck] = useState(new Dealer(gameSeed));
   const [overseerDirection, setOverseerDirection] = useState('left');
 
@@ -109,7 +111,6 @@ function App() {
     // Find the top card in that column
     const cardsInColumn = newDeck.filter(c => c.area === 'table').filter(c => c.column === column).sort((a, b) => b.row - a.row);
 
-    debugger;
     // Check for illegal moves.
     if (cardsInColumn.length > 0) {
       const topCard = cardsInColumn[0];
@@ -134,7 +135,9 @@ function App() {
   }
 
   function illegalMove() {
-    alert('That move is not allowed.');
+    illegalMoveDialogShowing = true;
+    setIllegalMoveDialogShowing(illegalMoveDialogShowing);
+    // alert('That move is not allowed.');
 
     // Deselect card
     const newDeck = JSON.parse(JSON.stringify(deck));
@@ -143,6 +146,11 @@ function App() {
       card.selected = false;
       setDeck(newDeck);
     }
+  }
+
+  function closeIllegalMoveDialog() {
+    illegalMoveDialogShowing = false;
+    setIllegalMoveDialogShowing(illegalMoveDialogShowing);
   }
 
   function moveSelectedCardToStack(column) {
@@ -261,7 +269,32 @@ function App() {
           onDoubleClick={() => cardDoubleClicked(card)}
         />
       })}
+      <div style={{ 
+                position: "absolute",
+                height: "544px",
+                width: "632px",
+                display: illegalMoveDialogShowing ? 'flex' : 'none',
+                justifyContent: "center",
+                alignItems: "center",
+                zIndex: 1000,
+      }}>
+        <div style={{ width: 198, /* height: 124 */ }} className="window">
+          <div className="title-bar">
+            <div className="title-bar-text">FreeCell</div>
+            <div className="title-bar-controls">
+              <button aria-label="Close" />
+            </div>
+          </div>
 
+          <div className="window-body">
+            {<img src={`/info.png`} alt="info bubble" style={{ verticalAlign:'middle' }}/>}
+            <span style={{ textAlign: "center" }}>That move is not allowed.</span>
+            <div className="field-row" style={{ justifyContent: "center" }}>
+              <button onClick={() => closeIllegalMoveDialog()}>OK</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
