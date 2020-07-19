@@ -4,67 +4,18 @@ import Card from './components/Card';
 import CardSpace from './components/CardSpace';
 import Overseer from './components/Overseer';
 import Menu from './components/Menu';
+import Dealer from './Dealer.js';
 
 // import { loader } from 'graphql.macro';
 // const query = loader('./foo.graphql');
 // console.log('query', query);
 
-function makeDeck() {
-  const deck = [];
-  let column = 0;
-  let row = 0;
-  let area = 'table';
-  ['S', 'D', 'C', 'H'].forEach((suit) => {
-    for (let int = 1; int <= 13; int++) {
-      let value;
-      switch (int) {
-        case 1:
-          value = 'A';
-          break;
-        case 11:
-          value = 'J';
-          break;
-        case 12:
-          value = 'Q';
-          break;
-        case 13:
-          value = 'K';
-          break;
-        default:
-          value = int.toString();
-          break;
-      }
-      let key = suit + value;
-      deck.push({
-        key,
-        suit,
-        value,
-        int,
-        column,
-        row,
-        area,
-        color: suit === 'S' || suit === 'C' ? 'black' : 'red',
-        selected: false
-      });
-    }
-  });
-
-  deck.forEach(card => {
-    if (column >= 8) {
-      column = 0;
-      row++;
-    }
-    card.column = column;
-    card.row = row;
-    column++;
-  });
-  return deck;
-}
+const gameSeed = 2;
 
 function App() {
   const appDiv = React.useRef(null);
   const [scale, setScale] = useState(0.5);
-  const [deck, setDeck] = useState(makeDeck());
+  const [deck, setDeck] = useState(new Dealer(gameSeed));
   const [overseerDirection, setOverseerDirection] = useState('left');
 
   function handleResize() {
