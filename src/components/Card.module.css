@@ -58,6 +58,9 @@
 }
 
 /* Top left holding positions */
+.Card[data-area="hold"] {
+  z-index: 5000;
+}
 .Card[data-area="hold"][data-column="0"] {
   top: menuHeight;
   left: 0;
@@ -76,6 +79,9 @@
 }
 
 /* Top right card piles */
+.Card[data-area="stacks"] {
+  z-index: 5000;
+}
 .Card[data-area="stacks"][data-column="0"] {
   top: menuHeight;
   left: calc(cardWidth * 4 + overseerWidth);
