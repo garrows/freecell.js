@@ -73,14 +73,74 @@ export function moveSelectedCardToStack(state, column) {
   checkForAutoMoves(state.deck);
 }
 
-export function checkForAutoMoves(deck) {
+function moveNextCard(deck, targetCard) {
   // Check each columm
-  for (let i = 0; i <= 8; i++) {
+  for (let i = 0; i < 8; i++) {
     // Find the top card in that column
-    const cardsInColumn = deck.filter(c => c.area === 'table').filter(c => c.column === i).sort((a, b) => b.int - a.int);
-    debugger;
-    if (cardsInColumn[0] && cardsInColumn[0].value === 'A') {
-      cardsInColumn[0].area = 'stacks';
+    const cardsInColumn = deck.filter(c => c.area === 'table').filter(c => c.column === i).sort((a, b) => b.row - a.row);
+    const topCard = cardsInColumn[0];
+    if (topCard && topCard.suit === targetCard.suit && topCard.int === (targetCard.int + 1)) {
+      // Move the card to the stacks area
+      // Find stacked cards
+      const stackCards = deck.filter(c => c.area === 'stacks');
+      
+      // Move card
+      topCard.area = 'stacks';
+      topCard.column = targetCard.column;
+      // Change made, check again.
+      return checkForAutoMoves(deck);
+    }
+  }
+  // Look in hold area
+  for (let i = 0; i < 4; i++) {
+    const cardsInHoldColumn = deck.filter(c => c.area === 'hold').filter(c => c.column === i);
+    const holdCard = cardsInHoldColumn[0];
+    if (holdCard) {
+      if (holdCard && holdCard.suit === targetCard.suit && holdCard.int === (targetCard.int + 1)) {
+        // Move the card to the stacks area
+        // Find stacked cards
+        const stackCards = deck.filter(c => c.area === 'stacks');
+        
+        // Move card
+        holdCard.area = 'stacks';
+        holdCard.column = targetCard.column;
+        // Change made, check again.
+        return checkForAutoMoves(deck);
+      }
+    }
+  }
+}
+
+export function checkForAutoMoves(deck) {
+  // Find the first free spot.
+  const stackCards = deck.filter(c => c.area === 'stacks');
+  const takenSpots = stackCards.map(c => c.column);
+  const freeSpot = [0,1,2,3].find(col => !takenSpots.includes(col));
+  if (freeSpot !== undefined) {
+    // Look for aces
+    ['S', 'D', 'H', 'C'].forEach(suit => {
+      const fakeCard = {
+        int: 0, // one less than an ace
+        suit,
+        column: freeSpot,
+      }
+      debugger;
+      const movedCard = moveNextCard(deck, fakeCard);
+      if (movedCard) {
+        // Something changed, check again.
+        return checkForAutoMoves(deck);
+      }
+    });
+  }
+  // Check each stacked column
+  for (let i = 0; i < 4; i++) {
+    const cardsInStack = deck.filter(c => c.area === 'stacks').filter(c => c.column === i).sort((a, b) => b.int - a.int);
+    if (cardsInStack[0]) {
+      const movedCard = moveNextCard(deck, cardsInStack[0]);
+      if (movedCard) {
+        // Something changed, check again.
+        return checkForAutoMoves(deck);
+      }
     }
   }
 }
