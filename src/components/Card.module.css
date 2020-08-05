@@ -8,7 +8,7 @@
   border: 1px black solid;
   border-radius: 2px;
   position: absolute;
-  transition-duration: 200ms;
+  transition-duration: 500ms;
 }
 
 /* When the card is clicked */
