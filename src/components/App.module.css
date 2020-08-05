@@ -1,0 +1,12 @@
+@value constants: "../Constants.module.css";
+@value gameWidth, gameHeight, topRowHeight, cardWidth, cardPadding, menuHeight from constants;
+
+.App {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  width: gameWidth;
+  height: gameHeight;
+  transform-origin: 0 0;
+}

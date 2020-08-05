@@ -96,7 +96,15 @@ function deal_ms_fc_board(seed) {
 
 function Dealer(seed) {
   const deck = deal_ms_fc_board(seed);
-  console.log(deck);
+  // Sort so react keeps track of them better
+  deck.sort((a, b) => {
+    if (a.key < b.key) {
+      return -1;
+    } else if (a.key > b.key) {
+      return 1;
+    }
+    return 0;
+  });
   return deck;
 }
 

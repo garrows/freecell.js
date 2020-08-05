@@ -1,3 +1,6 @@
+@value gameWidth: 632px;
+@value gameHeight: 544px;
+
 @value cardWidth: 71px;
 @value cardHeight: 96px;
 @value cardPadding: 7px;

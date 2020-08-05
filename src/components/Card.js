@@ -11,7 +11,8 @@ function Card(props) {
     area, 
     selected, 
     onClick, 
-    onDoubleClick 
+    onDoubleClick,
+    onMouseEnter,
   } = props;
 
   return (
@@ -25,6 +26,7 @@ function Card(props) {
       data-selected={selected}
       onClick={onClick}
       onDoubleClick={onDoubleClick}
+      onMouseEnter={onMouseEnter}
     ></div>
   );
 }

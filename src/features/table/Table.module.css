@@ -1,26 +1,5 @@
-@value constants: "./Constants.module.css";
-@value topRowHeight, cardWidth, cardPadding, menuHeight from constants;
-
-@value gameWidth: 632px;
-@value gameHeight: 544px;
-
-.App {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  width: gameWidth;
-  height: gameHeight;
-  transform-origin: 0 0;
-}
-
-body {
-  background-color: #027d01;
-}
-
-* {
-  image-rendering: pixelated;
-}
+@value constants: "../../Constants.module.css";
+@value gameWidth, gameHeight, topRowHeight, cardWidth, cardPadding, menuHeight from constants;
 
 .TopRow {
   display: flex;
