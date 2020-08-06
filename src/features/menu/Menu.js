@@ -11,6 +11,10 @@ export function Menu(props) {
     onIllegalMoveClosed,
     gameOverShowing,
     onGameOverClosed,
+    moveColumnDialogShowing,
+    onMoveSingleCard,
+    onMoveColumn,
+    onCancelMoveColumn,
     seed,
   } = props;
   const [ opened, setOpened ] = useState(false);
@@ -133,6 +137,44 @@ export function Menu(props) {
                   }                  
                 }}>Yes</button>
                 <button onClick={() => onGameOverClosed()}>No</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      : null }
+
+      { moveColumnDialogShowing ? 
+        <div className={styles.Dialog}>
+          <div style={{ width: '230px' }} className="window">
+            <div className="title-bar" style={{height: '21px' }}>
+              <div className="title-bar-text">Move to Empty Column...</div>
+            </div>
+
+            <div className="window-body">
+              <div className="field-row" style={{ justifyContent: 'center', marginTop: '25px' }}>
+                <button 
+                  style={{ width: '130px' }}
+                  onClick={() => {
+                    onMoveColumn();        
+                  }}
+                >
+                  Move column
+                </button>
+              </div>
+              <div className="field-row" style={{ justifyContent: 'center', marginTop: '12px' }}>
+                <button 
+                  style={{ width: '130px' }}
+                  onClick={() => {
+                    onMoveSingleCard();        
+                  }}
+                >
+                  Move single card
+                </button>
+              </div>
+              <div className="field-row" style={{ justifyContent: 'center', marginTop: '12px', marginBottom: '15px' }}>
+                <button onClick={() => {
+                  onCancelMoveColumn();
+                }}>Cancel</button>
               </div>
             </div>
           </div>

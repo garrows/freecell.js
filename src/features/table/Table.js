@@ -18,6 +18,10 @@ import {
   closeIllegalMoveDialog,
   closeGameOverDialog,
   selectGameOverDialogShowing,
+  selectMoveColumnDialogShowing,
+  moveSingleCard,
+  moveColumn,
+  cancelMoveColumnDialog,
 } from './tableSlice';
 import Card from '../../components/Card';
 import CardSpace from './../../components/CardSpace';
@@ -37,6 +41,7 @@ const Table = ({ illegalMove }) => {
   const overseerDirection = useSelector(selectOverseerDirection);
   const seed = useSelector(selectSeed);
   const gameOverDialogShowing = useSelector(selectGameOverDialogShowing);
+  const moveColumnDialogShowing = useSelector(selectMoveColumnDialogShowing);
   const dispatch = useDispatch();
   const gameOver = deck.filter(c => c.area !== 'stacks').length === 0;
 
@@ -57,6 +62,10 @@ const Table = ({ illegalMove }) => {
         onIllegalMoveClosed={() => dispatch(closeIllegalMoveDialog())}
         gameOverShowing={gameOverDialogShowing}
         onGameOverClosed={() => dispatch(closeGameOverDialog())}
+        moveColumnDialogShowing={moveColumnDialogShowing}
+        onMoveSingleCard={() => dispatch(moveSingleCard())}
+        onMoveColumn={() => dispatch(moveColumn())}
+        onCancelMoveColumn={() => dispatch(cancelMoveColumnDialog())}
       />
       <div className={styles.TopRow}>
         <div className={styles.TopRowLeft} onMouseEnter={() => dispatch(holdSpaceHover())}>

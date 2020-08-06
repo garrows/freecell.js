@@ -3,7 +3,7 @@ export function illegalMove(state) {
   state.deck.forEach(c => c.selected = false);
 }
 
-export function moveSelectedCardToColumn(state, column) {
+export function moveSelectedCardToColumn(state, column, singleOrColumn) {
   // Find a selected card
   const card = state.deck.find(c => c.selected);
   // Only has an action if a card is selected
@@ -31,15 +31,53 @@ export function moveSelectedCardToColumn(state, column) {
       return illegalMove(state);
     }
   }
+  if (singleOrColumn) {
+    if (singleOrColumn === 'single') {
+      card.row = 0;
+    } else {
+      const cardsInSelectedColumn = state.deck.filter(c => c.area === 'table').filter(c => c.column === card.column).sort((a, b) => b.row - a.row);
+      let previousCard = null;
+      // TODO: check how many moves can be made before making them.
+      // Move cards until mis-matching order.
+      cardsInSelectedColumn.every(c => {
+        // First card. It moves.
+        if (!previousCard) {
+          c.column = column;
+          previousCard = c;
+          return true;
+        }
+        if (previousCard && c.int === previousCard.int + 1 && c.color !== previousCard.color) {
+          c.column = column;
+          previousCard = c;
+          return true;
+        }
+        // Card doesn't match the order so stop iterating
+        return false;
+      });
+      // Set the rows in the new column
+      const cardsInNewColumnReversed = state.deck.filter(c => c.area === 'table').filter(c => c.column === card.column).sort((a, b) => a.row - b.row);
+      cardsInNewColumnReversed.forEach((c, i) => c.row = i);
+    }
+  } else if (cardsInColumn.length === 0) {
+    // Check if we should prompt about moving the whole column
+    const cardsInSelectedColumn = state.deck.filter(c => c.area === 'table').filter(c => c.column === card.column).sort((a, b) => b.row - a.row);
+    const underSelectedCard = cardsInSelectedColumn[1];
+    if (underSelectedCard && card.int === underSelectedCard.int - 1 && card.color !== underSelectedCard.color) {
+      state.selectedColumn = column;
+      state.moveColumnDialogShowing = true;
+      return;
+    }
 
-  const row = cardsInColumn.length > 0 ? cardsInColumn[0].row : -1;
+    card.row = 0;
+  } else {
+    card.row = cardsInColumn[0].row + 1;
+  }
   
-  card.row = row + 1;
   card.column = column;
   card.selected = false;
   card.area = 'table';
 
-  checkForAutoMoves(state.deck);
+  checkForAutoMoves(state);
 }
 
 export function moveSelectedCardToStack(state, column) {
@@ -70,7 +108,7 @@ export function moveSelectedCardToStack(state, column) {
   card.selected = false;
   card.area = 'stacks';
 
-  checkForAutoMoves(state.deck);
+  checkForAutoMoves(state);
 }
 
 function moveNextCard(state, targetCard) {
@@ -118,7 +156,6 @@ export function checkForAutoMoves(state) {
         suit,
         column: freeSpot,
       }
-      debugger;
       const movedCard = moveNextCard(state, fakeCard);
       if (movedCard) {
         // Something changed, check again.
