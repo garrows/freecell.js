@@ -98,12 +98,14 @@ function Dealer(seed) {
   const deck = deal_ms_fc_board(seed);
   // Sort so react keeps track of them better
   deck.sort((a, b) => {
-    if (a.key < b.key) {
+    // Sort by suit first
+    if (a.suit < b.suit) {
       return -1;
-    } else if (a.key > b.key) {
+    } else if (a.suit > b.suit) {
       return 1;
     }
-    return 0;
+    // Then sort by value
+    return a.int - b.int;
   });
   return deck;
 }

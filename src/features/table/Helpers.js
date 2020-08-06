@@ -73,22 +73,19 @@ export function moveSelectedCardToStack(state, column) {
   checkForAutoMoves(state.deck);
 }
 
-function moveNextCard(deck, targetCard) {
+function moveNextCard(state, targetCard) {
+  const deck = state.deck;
   // Check each columm
   for (let i = 0; i < 8; i++) {
     // Find the top card in that column
     const cardsInColumn = deck.filter(c => c.area === 'table').filter(c => c.column === i).sort((a, b) => b.row - a.row);
     const topCard = cardsInColumn[0];
-    if (topCard && topCard.suit === targetCard.suit && topCard.int === (targetCard.int + 1)) {
-      // Move the card to the stacks area
-      // Find stacked cards
-      const stackCards = deck.filter(c => c.area === 'stacks');
-      
+    if (topCard && topCard.suit === targetCard.suit && topCard.int === (targetCard.int + 1)) {      
       // Move card
       topCard.area = 'stacks';
       topCard.column = targetCard.column;
       // Change made, check again.
-      return checkForAutoMoves(deck);
+      return checkForAutoMoves(state);
     }
   }
   // Look in hold area
@@ -97,21 +94,18 @@ function moveNextCard(deck, targetCard) {
     const holdCard = cardsInHoldColumn[0];
     if (holdCard) {
       if (holdCard && holdCard.suit === targetCard.suit && holdCard.int === (targetCard.int + 1)) {
-        // Move the card to the stacks area
-        // Find stacked cards
-        const stackCards = deck.filter(c => c.area === 'stacks');
-        
         // Move card
         holdCard.area = 'stacks';
         holdCard.column = targetCard.column;
         // Change made, check again.
-        return checkForAutoMoves(deck);
+        return checkForAutoMoves(state);
       }
     }
   }
 }
 
-export function checkForAutoMoves(deck) {
+export function checkForAutoMoves(state) {
+  const deck = state.deck;
   // Find the first free spot.
   const stackCards = deck.filter(c => c.area === 'stacks');
   const takenSpots = stackCards.map(c => c.column);
@@ -125,10 +119,10 @@ export function checkForAutoMoves(deck) {
         column: freeSpot,
       }
       debugger;
-      const movedCard = moveNextCard(deck, fakeCard);
+      const movedCard = moveNextCard(state, fakeCard);
       if (movedCard) {
         // Something changed, check again.
-        return checkForAutoMoves(deck);
+        return checkForAutoMoves(state);
       }
     });
   }
@@ -136,11 +130,12 @@ export function checkForAutoMoves(deck) {
   for (let i = 0; i < 4; i++) {
     const cardsInStack = deck.filter(c => c.area === 'stacks').filter(c => c.column === i).sort((a, b) => b.int - a.int);
     if (cardsInStack[0]) {
-      const movedCard = moveNextCard(deck, cardsInStack[0]);
+      const movedCard = moveNextCard(state, cardsInStack[0]);
       if (movedCard) {
         // Something changed, check again.
-        return checkForAutoMoves(deck);
+        return checkForAutoMoves(state);
       }
     }
   }
+  state.gameOverDialogShowing = deck.filter(c => c.area !== 'stacks').length === 0;
 }

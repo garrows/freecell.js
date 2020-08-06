@@ -9,6 +9,8 @@ export function Menu(props) {
     undo,
     illegalMoveShowing,
     onIllegalMoveClosed,
+    gameOverShowing,
+    onGameOverClosed,
     seed,
   } = props;
   const [ opened, setOpened ] = useState(false);
@@ -17,6 +19,7 @@ export function Menu(props) {
   const [ newGamePromptShowing, setNewGamePromptShowing ] = useState(false);
   const [ restartGamePromptShowing, setRestartGamePromptShowing ] = useState(false);
   const [ selectGameShowing, setSelectGameShowing ] = useState(false);
+  const [ selectGameCheckbox, setSelectGameCheckboxShowing ] = useState(true);
   const [ seedInput, setSeedInput ] = useState(seed);
   const cardsLeft = deck.filter(c => c.area !== 'stacks').length;
 
@@ -87,6 +90,49 @@ export function Menu(props) {
                   }                  
                 }}>Yes</button>
                 <button onClick={() => setNewGamePromptShowing(false)}>No</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      : null }
+
+      { gameOverShowing ? 
+        <div className={styles.Dialog}>
+          <div style={{ width: '210px' }} className="window">
+            <div className="title-bar" style={{height: '21px' }}>
+              <div className="title-bar-text">Game Over</div>
+            </div>
+
+            <div className="window-body">
+              <p style={{ textAlign: "center" }}>Congratulations, you win!</p>
+              <p style={{ textAlign: "center" }}>Do you want to play again?</p>
+              <div 
+                className="field-row" 
+                style={{ 
+                  paddingLeft: '19px',
+                  paddingTop: '15px',
+                  paddingBottom: '7px',
+                }}
+              >
+                <input 
+                  defaultChecked 
+                  type="checkbox" 
+                  id="selectGame" 
+                  checked={selectGameCheckbox} 
+                  onChange={(e) => setSelectGameCheckboxShowing(e.target.checked)} />
+                <label htmlFor="selectGame">Select game</label>
+              </div>
+              <div className="field-row" style={{ justifyContent: 'center', marginBottom: '20px' }}>
+                <button onClick={() => {
+                  if (selectGameCheckbox) {
+                    setSelectGameShowing(true);
+                    onGameOverClosed();
+                  } else {
+                    newGame();
+                    onGameOverClosed();
+                  }                  
+                }}>Yes</button>
+                <button onClick={() => onGameOverClosed()}>No</button>
               </div>
             </div>
           </div>

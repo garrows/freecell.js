@@ -86,7 +86,7 @@ export const tableSlice = createSlice({
       card.column = column;
       card.selected = false; 
       card.area = 'hold';
-      checkForAutoMoves(state.deck);
+      checkForAutoMoves(state);
     },
     stackSpaceClicked: (state, action) => {
       moveSelectedCardToStack(state, action.payload);
@@ -130,11 +130,14 @@ export const tableSlice = createSlice({
         const freeSpot = [0,1,2,3].find(col => !takenSpots.includes(col));
         clickedCard.column = freeSpot;
       }
-      checkForAutoMoves(state.deck);
+      checkForAutoMoves(state);
     },
     closeIllegalMoveDialog: (state) => {
       state.illegalMoveShowing = false;
-    }
+    },
+    closeGameOverDialog: (state) => {
+      state.gameOverDialogShowing = false;
+    },
   },
 });
 
@@ -149,6 +152,7 @@ export const {
   columnClicked,
   cardDoubleClicked,
   closeIllegalMoveDialog,
+  closeGameOverDialog,
 } = tableSlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -168,5 +172,6 @@ export const selectDeck = state => state.table.deck;
 export const selectIllegalMoveShowing = state => state.table.illegalMoveShowing;
 export const selectOverseerDirection = state => state.table.overseerDirection;
 export const selectSeed = state => state.table.seed;
+export const selectGameOverDialogShowing = state => state.table.gameOverDialogShowing;
 
 export default tableSlice.reducer;

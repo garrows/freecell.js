@@ -16,6 +16,8 @@ import {
   columnClicked,
   cardDoubleClicked,
   closeIllegalMoveDialog,
+  closeGameOverDialog,
+  selectGameOverDialogShowing,
 } from './tableSlice';
 import Card from '../../components/Card';
 import CardSpace from './../../components/CardSpace';
@@ -34,7 +36,9 @@ const Table = ({ illegalMove }) => {
   const illegalMoveShowing = useSelector(selectIllegalMoveShowing);
   const overseerDirection = useSelector(selectOverseerDirection);
   const seed = useSelector(selectSeed);
+  const gameOverDialogShowing = useSelector(selectGameOverDialogShowing);
   const dispatch = useDispatch();
+  const gameOver = deck.filter(c => c.area !== 'stacks').length === 0;
 
   function undo() {
     alert('undo');
@@ -51,6 +55,8 @@ const Table = ({ illegalMove }) => {
         undo={() => undo()}
         illegalMoveShowing={illegalMoveShowing}
         onIllegalMoveClosed={() => dispatch(closeIllegalMoveDialog())}
+        gameOverShowing={gameOverDialogShowing}
+        onGameOverClosed={() => dispatch(closeGameOverDialog())}
       />
       <div className={styles.TopRow}>
         <div className={styles.TopRowLeft} onMouseEnter={() => dispatch(holdSpaceHover())}>
@@ -59,7 +65,7 @@ const Table = ({ illegalMove }) => {
           <CardSpace onClick={() => dispatch(holdSpaceClicked(2))} />
           <CardSpace onClick={() => dispatch(holdSpaceClicked(3))} />
         </div>
-        <Overseer direction={overseerDirection} />
+        <Overseer direction={overseerDirection} gameOver={gameOver}/>
         <div className={styles.TopRowRight} onMouseEnter={() => dispatch(stackSpaceHover())} >
           <CardSpace onClick={() => dispatch(stackSpaceClicked(0))} />
           <CardSpace onClick={() => dispatch(stackSpaceClicked(1))} />
@@ -90,6 +96,9 @@ const Table = ({ illegalMove }) => {
           onMouseEnter={() => dispatch(cardHover(card))}
         />
       })}
+      {gameOver ? 
+        <img src="/deck/overseer-smile.gif" alt="Smiling King" className={styles.SmilingOverseer}/>
+      : null }
     </div>
   );
 };

@@ -43,3 +43,9 @@
 .Column:first-child, .Column:last-child {
   width: calc(cardWidth + cardPadding * 1.5);
 }
+
+.SmilingOverseer {
+  position: absolute;
+  top: calc(menuHeight + topRowHeight);
+  width: 320px;
+}

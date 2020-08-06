@@ -4,10 +4,12 @@ import styles from './Overseer.module.css';
 
 class Overseer extends Component {
   render() {
-    const { direction } = this.props;
+    const { direction, gameOver } = this.props;
 
     return <div className={`${styles.overseer}`}>
-      <img src={`/deck/overseer-${direction}.gif`} alt="overseeing king" />
+      {!gameOver ? 
+        <img src={`/deck/overseer-${direction}.gif`} alt="overseeing king" />
+      : null }
     </div>;
   }
 }

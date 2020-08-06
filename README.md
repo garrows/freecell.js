@@ -15,3 +15,8 @@ Card height: 96px
 Card top height: 18px
 
 Menu height: 20px
+
+## TODO
+
+* Move column
+* Better sizing (for mobile)
