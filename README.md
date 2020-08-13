@@ -21,6 +21,6 @@ Menu height: 20px
 * Move column to free space
 * * Limit moves based on free spaces
 * Move column to other card
-* Better sizing (for mobile)
 * Undo
 * Save state
+* Accessibility

@@ -8,5 +8,6 @@
   justify-content: flex-start;
   width: gameWidth;
   height: gameHeight;
-  transform-origin: 0 0;
+  transform-origin: top center;
+  margin: 0 auto;
 }
