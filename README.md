@@ -24,3 +24,4 @@ Menu height: 20px
 * Undo
 * Save state
 * Accessibility
+* Out of moves dialog
