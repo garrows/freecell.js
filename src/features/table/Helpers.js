@@ -17,26 +17,47 @@ export function moveSelectedCardToColumn(state, column, singleOrColumn) {
   }
 
   // Find the top card in that column
-  const cardsInColumn = state.deck.filter(c => c.area === 'table').filter(c => c.column === column).sort((a, b) => b.row - a.row);
+  const cardsInDestColumn = state.deck.filter(c => c.area === 'table').filter(c => c.column === column).sort((a, b) => b.row - a.row);
+
+  let previousCard = null;
+  const cardsInSelectedColumn = state.deck.filter(c => c.area === 'table').filter(c => c.column === card.column).sort((a, b) => b.row - a.row);
+  const cardsInSourceStack = cardsInSelectedColumn.filter(c => {
+    // First card. It moves.
+    if (!previousCard) {
+      previousCard = c;
+      return true;
+    }
+    if (previousCard && c.int === previousCard.int + 1 && c.color !== previousCard.color) {
+      previousCard = c;
+      return true;
+    }
+    // Card doesn't match the order so stop iterating
+    return false;
+  });
 
   // Check for illegal moves.
-  if (cardsInColumn.length > 0) {
-    const topCard = cardsInColumn[0];
-    // Wrong color
-    if (topCard.color === card.color) {
+  if (cardsInDestColumn.length > 0) {
+    const topCard = cardsInDestColumn[0];
+    const legalCardMove = cardsInSourceStack.find((c) => {
+      return topCard.color !== c.color && topCard.int === c.int + 1;
+    })
+    if (!legalCardMove) {
       return illegalMove(state);
-    }
-    // Wrong value
-    if (topCard.int !== card.int + 1) {
-      return illegalMove(state);
+    } else {
+      // TODO: check how many moves can be made before making them.
+      const cardsToMove = cardsInSourceStack.slice(cardsInSourceStack.indexOf(legalCardMove));
+      let row = topCard.row + 1;
+      cardsToMove.forEach(c => {
+        c.column = column;
+        c.row = row;
+        row++;
+      });
     }
   }
   if (singleOrColumn) {
     if (singleOrColumn === 'single') {
       card.row = 0;
     } else {
-      const cardsInSelectedColumn = state.deck.filter(c => c.area === 'table').filter(c => c.column === card.column).sort((a, b) => b.row - a.row);
-      let previousCard = null;
       // TODO: check how many moves can be made before making them.
       // Move cards until mis-matching order.
       cardsInSelectedColumn.every(c => {
@@ -58,7 +79,7 @@ export function moveSelectedCardToColumn(state, column, singleOrColumn) {
       const cardsInNewColumnReversed = state.deck.filter(c => c.area === 'table').filter(c => c.column === card.column).sort((a, b) => a.row - b.row);
       cardsInNewColumnReversed.forEach((c, i) => c.row = i);
     }
-  } else if (cardsInColumn.length === 0) {
+  } else if (cardsInDestColumn.length === 0) {
     // Check if we should prompt about moving the whole column
     const cardsInSelectedColumn = state.deck.filter(c => c.area === 'table').filter(c => c.column === card.column).sort((a, b) => b.row - a.row);
     const underSelectedCard = cardsInSelectedColumn[1];
@@ -69,8 +90,6 @@ export function moveSelectedCardToColumn(state, column, singleOrColumn) {
     }
 
     card.row = 0;
-  } else {
-    card.row = cardsInColumn[0].row + 1;
   }
   
   card.column = column;
