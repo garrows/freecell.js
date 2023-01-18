@@ -7,6 +7,10 @@ import { configureStore } from '@reduxjs/toolkit'
 import * as serviceWorker from './serviceWorker';
 import rootReducer from './reducers'
 
+window.debugStack = function(stack) {
+  stack.forEach(card => console.log(card.suit, card.value, card.color, card.int));
+}
+
 const store = configureStore({
   reducer: rootReducer
 })
