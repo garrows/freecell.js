@@ -35,25 +35,36 @@ export function moveSelectedCardToColumn(state, column, singleOrColumn) {
     return false;
   });
 
-  // Check for illegal moves.
-  if (cardsInDestColumn.length > 0) {
+  if (card.area === 'hold') {
     const topCard = cardsInDestColumn[0];
-    const legalCardMove = cardsInSourceStack.find((c) => {
-      return topCard.color !== c.color && topCard.int === c.int + 1;
-    })
-    if (!legalCardMove) {
-      return illegalMove(state);
+    if (topCard.color !== card.color && topCard.int === card.int + 1) {
+      card.row = topCard.row + 1;
     } else {
-      // TODO: check how many moves can be made before making them.
-      const cardsToMove = cardsInSourceStack.slice(cardsInSourceStack.indexOf(legalCardMove));
-      let row = topCard.row + 1;
-      cardsToMove.forEach(c => {
-        c.column = column;
-        c.row = row;
-        row++;
-      });
+      return illegalMove(state);
+    }
+  } else {
+    // Check for illegal moves.
+    if (cardsInDestColumn.length > 0) {
+      const topCard = cardsInDestColumn[0];
+      const legalCardMove = cardsInSourceStack.find((c) => {
+        return topCard.color !== c.color && topCard.int === c.int + 1;
+      })
+      if (!legalCardMove) {
+        return illegalMove(state);
+      } else {
+        // TODO: check how many moves can be made before making them.
+        const cardsToMove = cardsInSourceStack.slice(cardsInSourceStack.indexOf(legalCardMove));
+        let row = topCard.row + 1;
+        cardsToMove.forEach(c => {
+          c.column = column;
+          c.row = row;
+          row++;
+        });
+      }
     }
   }
+
+ 
   if (singleOrColumn) {
     if (singleOrColumn === 'single') {
       card.row = 0;
