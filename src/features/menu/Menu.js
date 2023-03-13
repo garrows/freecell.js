@@ -81,7 +81,7 @@ export function Menu(props) {
             </div>
 
             <div className="window-body">
-              <img src={`/info.png`} alt="info bubble" style={{ verticalAlign:'middle' }}/>
+              <img src={`./info.png`} alt="info bubble" style={{ verticalAlign:'middle' }}/>
               <span style={{ textAlign: "center" }}>Do you want to resign this game?</span>
               <div className="field-row" style={{ justifyContent: "center" }}>
                 <button onClick={() => {
@@ -226,7 +226,7 @@ export function Menu(props) {
             </div>
 
             <div className="window-body">
-              <img src={`/info.png`} alt="info bubble" style={{ verticalAlign:'middle' }}/>
+              <img src={`./info.png`} alt="info bubble" style={{ verticalAlign:'middle' }}/>
               <span style={{ textAlign: "center" }}>That move is not allowed.</span>
               <div className="field-row" style={{ justifyContent: "center" }}>
                 <button onClick={() => onIllegalMoveClosed()}>OK</button>
@@ -247,7 +247,7 @@ export function Menu(props) {
             </div>
 
             <div className="window-body">
-              {<img src={`/info.png`} alt="info bubble" style={{ verticalAlign:'middle' }}/>}
+              {<img src={`./info.png`} alt="info bubble" style={{ verticalAlign:'middle' }}/>}
               <span style={{ textAlign: "center" }}>FreeCell</span>
               <p>By <a href="https://garrows.com">Glen Arrowsmith</a></p>
               <p>I made this for my father and father-in-law because there were no decent ad-free or paid versions of FreeCell that run on Windows 10. Hopefully this helps get your dad off of Windows XP too.</p>
