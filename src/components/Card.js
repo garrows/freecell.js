@@ -17,7 +17,7 @@ function Card(props) {
 
   return (
     <div 
-      style={{backgroundImage:`url(/deck/${value.toLowerCase()}${suit.toLowerCase()}.gif)`}} 
+      style={{backgroundImage:`url(./deck/${value.toLowerCase()}${suit.toLowerCase()}.gif)`}} 
       className={`${styles.Card}`} 
       data-column={column}
       data-row={row}

@@ -106,7 +106,7 @@ const Table = ({ illegalMove }) => {
         />
       })}
       {gameOver ? 
-        <img src="/deck/overseer-smile.gif" alt="Smiling King" className={styles.SmilingOverseer}/>
+        <img src="./deck/overseer-smile.gif" alt="Smiling King" className={styles.SmilingOverseer}/>
       : null }
     </div>
   );

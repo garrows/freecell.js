@@ -8,7 +8,7 @@ class Overseer extends Component {
 
     return <div className={`${styles.overseer}`}>
       {!gameOver ? 
-        <img src={`/deck/overseer-${direction}.gif`} alt="overseeing king" />
+        <img src={`./deck/overseer-${direction}.gif`} alt="overseeing king" />
       : null }
     </div>;
   }
